@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-public class DeliveryStatusNotChangedFromReceivedFor10Minutes implements TicketEvaluator {
+public class DeliveryStatusNotChangedFromReceivedFor10Minutes implements TicketConditionEvaluator {
   @Override
   public boolean evaluate(Delivery delivery) {
     return LocalDateTime.now().isAfter(delivery.getCreatedAt().plusMinutes(10)) &&

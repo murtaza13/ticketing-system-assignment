@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-public class ExpectedTimeOfDeliveryPassedTicketEvaluator implements TicketEvaluator {
+public class ExpectedTimeOfDeliveryPassedTicketConditionEvaluator implements TicketConditionEvaluator {
   @Override
   public boolean evaluate(Delivery delivery) {
     return LocalDateTime.now().isBefore(delivery.getExpectedDeliveryTime());

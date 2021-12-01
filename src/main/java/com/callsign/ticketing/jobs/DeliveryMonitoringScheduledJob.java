@@ -3,7 +3,7 @@ package com.callsign.ticketing.jobs;
 import com.callsign.ticketing.data.entities.Delivery;
 import com.callsign.ticketing.data.enums.CustomerType;
 import com.callsign.ticketing.data.enums.TicketPriority;
-import com.callsign.ticketing.evaluators.tickets.TicketEvaluator;
+import com.callsign.ticketing.evaluators.tickets.TicketConditionEvaluator;
 import com.callsign.ticketing.services.DeliveryService;
 import com.callsign.ticketing.services.TicketService;
 import org.springframework.context.ApplicationContext;
@@ -32,12 +32,12 @@ public class DeliveryMonitoringScheduledJob {
   public void runJob(){
     Set<Delivery> deliveries = deliveryService.getNInCompleteDeliveries(100);
     for(Delivery delivery: deliveries){
-      for(TicketEvaluator ticketEvaluator: applicationContext.getBeansOfType(TicketEvaluator.class).values()){
-        boolean requiresANewTicket = ticketEvaluator.evaluate(delivery);
-        TicketPriority ticketPriority = overrideTicketPriorityIfApplicable(ticketEvaluator.getDefaultTicketPriority(),
-            delivery.getCustomerType());
+      for(TicketConditionEvaluator ticketConditionEvaluator : applicationContext.getBeansOfType(TicketConditionEvaluator.class).values()){
+        boolean requiresANewTicket = ticketConditionEvaluator.evaluate(delivery);
         if(requiresANewTicket){
-          ticketService.createTicket(ticketEvaluator.getEvaluatorId(), ticketPriority, delivery.getDeliveryId());
+          TicketPriority ticketPriority = overrideTicketPriorityIfApplicable(ticketConditionEvaluator.
+                  getDefaultTicketPriority(), delivery.getCustomerType());
+          ticketService.createTicket(ticketConditionEvaluator.getEvaluatorId(), ticketPriority, delivery.getDeliveryId());
         }
       }
     }

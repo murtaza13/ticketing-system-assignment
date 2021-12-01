@@ -3,7 +3,7 @@ package com.callsign.ticketing.evaluators.tickets;
 import com.callsign.ticketing.data.entities.Delivery;
 import com.callsign.ticketing.data.enums.TicketPriority;
 
-public interface TicketEvaluator {
+public interface TicketConditionEvaluator {
   default String getEvaluatorId(){
     return this.getClass().getName();
   };
