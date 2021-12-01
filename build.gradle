@@ -1,0 +1,44 @@
+buildscript{
+    ext{
+        springBootVersion='2.5.6'
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.6.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+plugins {
+    id "org.flywaydb.flyway" version "8.1.0"
+}
+
+group = 'com.callsign'
+version = '0.0.1'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //Presentation
+    implementation ("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+
+    //Security
+    compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
+
+    //Persistence
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+    implementation ("org.hibernate:hibernate-core:5.5.7.Final")
+    implementation("org.flywaydb:flyway-core:6.5.7")
+    implementation("mysql:mysql-connector-java:8.0.26")
+
+    //Testing
+    testImplementation ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}
